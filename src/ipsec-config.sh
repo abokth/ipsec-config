@@ -49,6 +49,7 @@ for h in "${hosts[@]}"; do
     # To undo this: yum -y remove libreswan; rm -rf /etc/ipsec.d
     ssh root@"$h" 'test -e /etc/ipsec.d || yum -y install libreswan'
 
+    ssh root@"$h" 'test -e /etc/ipsec.d/key3.db || ipsec initnss --configdir /etc/ipsec.d'
     ssh root@"$h" 'test -e /etc/ipsec.d/$(hostname --short).secrets || ipsec newhostkey --configdir /etc/ipsec.d --output /etc/ipsec.d/$(hostname --short).secrets'
 
     ssh root@"$h" ipsec showhostkey --left >"$leftkeys/$h"
